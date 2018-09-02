@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  app:
+    container_name: app
+    restart: always
+    build: .
+    volumes:
+      - ./server:/usr/src/app
+    depends_on:
+      - mariadb
+    ports:
+      - "3000:3000"
+
+  mariadb:
+    container_name: mariadb
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=mariadb
+      - MYSQL_DATABASE=mariadb
+      - MYSQL_USER=mariadb
+      - MYSQL_PASSWORD=mariadb
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "3306:3306"

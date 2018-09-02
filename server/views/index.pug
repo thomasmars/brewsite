@@ -1,0 +1,14 @@
+html
+  head
+    title= "Gjærningsmenn"
+    script(src="https://d3js.org/d3.v4.min.js")
+    script.
+      var data = !{JSON.stringify(temperatureData)};
+      var lastFiveDaysData = !{JSON.stringify(lastFiveDays)};
+    script(src="/js/app.js")
+  body
+    h1= "Temperature measurements"
+    h2= "Last five days"
+    div(class='last-five-days')
+    h2= "All temperatures"
+    div(class='all-temperatures')

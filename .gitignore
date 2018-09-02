@@ -1,0 +1,6 @@
+docker-compose.ecs.yml
+ecs-params.yml
+server/.env
+server/node_modules
+server/TODOs.md
+scripts
