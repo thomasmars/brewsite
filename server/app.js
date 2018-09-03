@@ -3,7 +3,6 @@ const app = express();
 const Sequelize = require('sequelize');
 require('dotenv').config();
 
-let data = [];
 const SECRET = process.env.SECRET;
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
@@ -102,7 +101,6 @@ app.post('/temperature', function (req, res) {
           temperature: temp.temperature
         }));
     });
-    data = data.concat(temperatures);
   }
   res.send({
     'success': true
