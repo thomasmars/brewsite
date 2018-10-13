@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const http = require('http');
+const https = require('https');
 const Sequelize = require('sequelize');
 require('dotenv').config();
 
@@ -8,6 +10,7 @@ const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
 const DB_PASS = process.env.DB_PASS;
 const DB_NAME = process.env.DB_NAME;
+const APP_PORT = process.env.APP_PORT;
 
 app.set('view engine', 'pug');
 app.use(express.static('public'));
@@ -21,7 +24,7 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
   pool: {
     max: 5,
     min: 0,
-    acquire: 30000,
+    acquire: 50000,
     idle: 10000
   },
 });
@@ -36,8 +39,8 @@ function initDB() {
         temperature: Sequelize.FLOAT
       });
     })
-    .catch(() => {
-      console.log("Failed connection to DB, retrying");
+    .catch((e) => {
+      console.log("Failed connection to DB with error:", e);
       setTimeout(function () {
         initDB();
       }, 10000)
@@ -107,4 +110,10 @@ app.post('/temperature', function (req, res) {
   });
 });
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'));
+const httpServer = http.createServer(app);
+
+httpServer.listen(APP_PORT, () => {
+  console.log("htttp server running at port " + APP_PORT);
+});
+
+// TODO: Fix httpsServer together with letsencrypt
